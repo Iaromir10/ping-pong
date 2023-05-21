@@ -48,11 +48,17 @@ FPS = 60
 
 font.init()
 font1 = font.Font(None, 80)
-won = font1.render('YOU WIN!', True, (255, 255, 255))
-lose = font1.render('YOU LOH!', True, (180, 0, 0))
+won_L = font1.render('Left player WIN!', True, (255, 255, 255))
+won_R = font1.render('Right player WIN!', True, (180, 0, 0))
 
-speed_x = 3
-speed_y = 3   
+speed_x = 5
+speed_y = 5 
+
+point1 = 0
+point2 = 0
+
+score1 = font1.render(str(point1), True, (255, 255, 255))
+score2 = font1.render(str(point2), True, (255, 255, 255))
 
 
 while game:
@@ -74,9 +80,29 @@ while game:
         if ball.rect.y < 0 or ball.rect.y > win_height - 50:
             speed_y *= -1
 
+        if ball.rect.x < -50:
+            finish = True
+            point2 += 1
+            score2 = font1.render(str(point2), True, (255, 255, 255))
+            time.delay(1000)
+
+
+        if ball.rect.x > win_width:
+            finish = True
+            point1 += 1
+            score1 = font1.render(str(point1), True, (255, 255, 255))
+            time.delay(1000)
+
+
+        window.blit(score1, (10, 20))
+        window.blit(score2, (610, 20))
+
         player1.reset()
         player2.reset()
         ball.reset()
+    else:
+        finish = False
+        ball = GameSprite('pngwing.com (7).png', 330, 230, 300, 50, 50)
 
         
     display.update()
